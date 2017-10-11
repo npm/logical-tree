@@ -11,11 +11,13 @@ class LogicalTree {
     this.resolved = lockNode.resolved
     this.integrity = lockNode.integrity
     this.dependencies = new Map()
+    this.requiredBy = new Set()
     this.pending = null
   }
 
   addDep (dep) {
     this.dependencies.set(dep.name, dep)
+    dep.requiredBy.add(this)
   }
 
   getDep (name) {
