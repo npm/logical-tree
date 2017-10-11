@@ -36,6 +36,7 @@ LogicalTree {
   bundled: false,
   resolved: undefined,
   integrity: undefined,
+  requiredBy: Set { },
   dependencies:
    Map {
      'foo' => LogicalTree {
@@ -47,7 +48,8 @@ LogicalTree {
        bundled: false,
        resolved: 'https://registry.npmjs.org/foo/-/foo-1.2.3.tgz',
        integrity: 'sha1-rYUK/p261/SXByi0suR/7Rw4chw=',
-       dependencies: Map { ... }
+       dependencies: Map { ... },
+       requiredBy: Set { ... },
        pending: null
      },
      ...
@@ -98,6 +100,7 @@ LogicalTree {
   bundled: false,
   resolved: undefined,
   integrity: undefined,
+  requiredBy: Set { },
   dependencies:
    Map {
      'foo' => LogicalTree {
@@ -109,6 +112,7 @@ LogicalTree {
        bundled: false,
        resolved: 'https://registry.npmjs.org/foo/-/foo-1.2.3.tgz',
        integrity: 'sha1-rYUK/p261/SXByi0suR/7Rw4chw=',
+       requiredBy: Set { ... },
        dependencies: Map { ... }
        pending: null
      },
