@@ -15,6 +15,15 @@ logical relationships between the different dependencies.
 * [Contributing](#contributing)
 * [API](#api)
   * [`logicalTree`](#logical-tree)
+  * [`logicalTree.node`](#make-node)
+  * [`tree.isRoot`](#is-root)
+  * [`tree.addDep`](#add-dep)
+  * [`tree.delDep`](#del-dep)
+  * [`tree.getDep`](#get-dep)
+  * [`tree.path`](#path)
+  * [`tree.hasCycle`](#has-cycle)
+  * [`tree.forEach`](#for-each)
+  * [`tree.forEachAsync`](#for-each-async)
 
 ### Example
 
@@ -50,7 +59,6 @@ LogicalTree {
        integrity: 'sha1-rYUK/p261/SXByi0suR/7Rw4chw=',
        dependencies: Map { ... },
        requiredBy: Set { ... },
-       pending: null
      },
      ...
   }
@@ -114,9 +122,26 @@ LogicalTree {
        integrity: 'sha1-rYUK/p261/SXByi0suR/7Rw4chw=',
        requiredBy: Set { ... },
        dependencies: Map { ... }
-       pending: null
      },
      ...
   }
 }
+```
+
+#### <a name="make-node"></a> `> logicalTree.node(name, [address, [opts]]) -> LogicalTree`
+
+Manually creates a new LogicalTree node.
+
+##### Options
+
+* `opts.version` - version of the node.
+* `opts.optional` - is this node an optionalDep?
+* `opts.dev` - is this node a devDep?
+* `opts.bundled` - is this bundled?
+* `opts.resolved` - resolved address.
+* `opts.integrity` - SRI string.
+
+##### Example
+```javascript
+logicalTree.node('hello', 'subpath:to:@foo/bar', {dev: true})
 ```
