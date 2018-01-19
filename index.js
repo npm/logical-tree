@@ -126,7 +126,7 @@ function addChild (dep, tree, allDeps, pkgLock) {
   const addr = dep.address
   const lockNode = atAddr(pkgLock, addr)
   Object.keys(lockNode.requires || {}).forEach(name => {
-    const tdepAddr = reqAddr(pkgLock, name, lockNode.requires[name], addr)
+    const tdepAddr = reqAddr(pkgLock, name, addr)
     let tdep = allDeps.get(tdepAddr)
     if (!tdep) {
       tdep = makeNode(name, tdepAddr, atAddr(pkgLock, tdepAddr))
@@ -138,23 +138,29 @@ function addChild (dep, tree, allDeps, pkgLock) {
 }
 
 module.exports._reqAddr = reqAddr
-function reqAddr (pkgLock, name, version, fromAddr) {
+function reqAddr (pkgLock, name, fromAddr) {
   const lockNode = atAddr(pkgLock, fromAddr)
   const child = (lockNode.dependencies || {})[name]
-  if (child && child.version === version) {
+  if (child) {
     return `${fromAddr}:${name}`
   } else {
     const parts = fromAddr.split(':')
     while (parts.length) {
       parts.pop()
-      const parent = atAddr(pkgLock, parts.join(':'))
+      const joined = parts.join(':')
+      const parent = atAddr(pkgLock, joined)
       if (parent) {
         const child = (parent.dependencies || {})[name]
-        if (child && child.version === version) {
-          return `${parts.join(':')}${parts.length ? ':' : ''}${name}`
+        if (child) {
+          return `${joined}${parts.length ? ':' : ''}${name}`
         }
       }
     }
+    const err = new Error(`${name} not accessible from ${fromAddr}`)
+    err.pkgLock = pkgLock
+    err.target = name
+    err.from = fromAddr
+    throw err
   }
 }
 

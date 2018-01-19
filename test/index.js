@@ -69,7 +69,7 @@ test('includes transitive dependencies', t => {
       'a': {
         version: '1.0.1',
         requires: {
-          b: '2.0.2',
+          b: '3.0.0', // wrong version is intentional
           c: '3.0.3'
         },
         dependencies: {
@@ -112,6 +112,29 @@ test('includes transitive dependencies', t => {
     new Set([depA]),
     'depC is only required by A'
   )
+  t.done()
+})
+
+test('errors if required dep not found', t => {
+  const pkg = {
+    dependencies: {
+      'a': '^1.0.0',
+      'b': '^2.0.0'
+    }
+  }
+  const pkgLock = {
+    dependencies: {
+      'a': {
+        version: '1.0.1',
+        requires: {
+          b: '3.0.0'
+        }
+      }
+    }
+  }
+  t.throws(() => {
+    logi(pkg, pkgLock)
+  }, /b not accessible/)
   t.done()
 })
 
@@ -166,21 +189,6 @@ test('supports dependency cycles', t => {
     new Set([logicalTree, depA, depC]),
     'depB is requiredBy on depA'
   )
-  t.done()
-})
-
-test('addDep', t => {
-  const tree = logi.node('foo')
-  const dep = logi.node('bar')
-  t.equal(tree.addDep(dep), tree, 'returns the tree')
-  t.deepEqual(
-    tree.dependencies,
-    new Map([[dep.name, dep]]),
-    'dep added to dependencies'
-  )
-  t.deepEqual(dep.requiredBy, new Set([tree]), 'requiredBy updated for dep')
-  t.deepEqual(dep.dependencies, new Map(), 'nothing in dep.dependencies')
-  t.deepEqual(tree.requiredBy, new Set(), 'nothing in tree.requiredBy')
   t.done()
 })
 
