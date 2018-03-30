@@ -225,18 +225,22 @@ logicalTree.forEach((node, cb) => {
 })
 ```
 
-#### <a name="for-each-async"></a> `> tree.forEachAsync(fn)`
+#### <a name="for-each-async"></a> `> tree.forEachAsync(fn, opts)`
 
 Returns a `Promise` resolved once `fn` is executed asynchronously for every node in the tree.
 `fn` receives the node object and a `cb` to call when it is done.
 `fn` is expected to return a `Promise`, and indeed `cb` here returns a `Promise` as well.
+
+##### Options
+
+* `opts.Promise` - custom `Promise` implementation
 
 ##### Example
 ```javascript
 let manifests = {}
 await logicalTree.forEach(async (node, cb) => {
   const path = node.path()
-  flattened[path] = await pacote.manifest(`${node.name}@${node.version}`)
+  manifests[path] = await pacote.manifest(`${node.name}@${node.version}`)
   await cb()
 })
 console.log('Yay, we are done!')
