@@ -146,7 +146,7 @@ Manually creates a new LogicalTree node.
 logicalTree.node('hello', 'subpath:to:@foo/bar', {dev: true})
 ```
 
-#### <a name="is-root"></a> tree.isRoot
+#### <a name="is-root"></a> `> tree.isRoot`
 
 Boolean value indicating whether the tree (node) is the root node or not.
 
@@ -155,7 +155,7 @@ Boolean value indicating whether the tree (node) is the root node or not.
 tree.isRoot // true
 ```
 
-#### <a name="add-dep"></a> tree.addDep(node)
+#### <a name="add-dep"></a> `> tree.addDep(node)`
 
 Adds a logical dependency (such as one created by [`tree.node`](#make-node)) to the tree's `dependencies` map. Returns the logicalTree instance.
 
@@ -165,7 +165,7 @@ const node = logicalTree.node('hello', 'hello')
 tree.addDep(node)
 ```
 
-#### <a name="del-dep"></a> tree.delDep(node)
+#### <a name="del-dep"></a> `> tree.delDep(node)`
 
 Deletes a logical dependency from the tree's `dependencies` map. Returns the tree instance.
 
@@ -175,7 +175,7 @@ const node = logicalTree.getDep('hello')
 tree.delDep(node)
 ```
 
-#### <a name="get-dep"></a> tree.getDep(name)
+#### <a name="get-dep"></a> `> tree.getDep(name)`
 
 Returns a logical dependency from the tree's `dependencies` map.
 
@@ -184,7 +184,7 @@ Returns a logical dependency from the tree's `dependencies` map.
 const node = logicalTree.getDep('hello')
 ```
 
-#### <a name="path"></a> tree.path([prefix])
+#### <a name="path"></a> `> tree.path([prefix])`
 
 Returns the physical path of the node.
 An optional prefix (eg. in order to receive an absolute path) can be provided.
@@ -198,7 +198,7 @@ node.path('/home/myHomeFolder/moduleName/')
 // /home/myHomeFolder/moduleName/node_modules/foo/node_modules/bar/node_modules/hello
 ```
 
-#### <a name="has-cycle"></a> tree.hasCycle()
+#### <a name="has-cycle"></a> `> tree.hasCycle()`
 
 Returns true if there is a dependency cycle including the current node.
 Will not check if there is an internal 'unrelated' cycle within the node's children.
@@ -210,7 +210,7 @@ const a.hasCycle() // true
 // a ===depends-on===> b ===depends-on===> c ===depends-on===> a
 ```
 
-#### <a name="for-each"></a> tree.forEach(fn)
+#### <a name="for-each"></a> `> tree.forEach(fn)`
 
 Executes `fn` once for each node in the tree.
 `fn` receives the node object and a `cb` to call when it is done.
@@ -225,7 +225,7 @@ logicalTree.forEach((node, cb) => {
 })
 ```
 
-#### <a name="for-each-async"></a> tree.forEachAsync(fn)
+#### <a name="for-each-async"></a> `> tree.forEachAsync(fn)`
 
 Returns a `Promise` resolved once `fn` is executed asynchronously for every node in the tree.
 `fn` receives the node object and a `cb` to call when it is done.
